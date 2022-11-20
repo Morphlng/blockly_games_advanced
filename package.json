@@ -1,0 +1,41 @@
+{
+    "name": "blockly_games_advanced",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint",
+        "test:unit": "vue-cli-service test:unit",
+        "test:e2e": "vue-cli-service test:e2e"
+    },
+    "dependencies": {
+        "axios": "^0.18.0",
+        "core-js": "^2.6.5",
+        "element-ui": "^2.3.6",
+        "qs": "^6.7.0",
+        "vue": "^2.6.10",
+        "vue-infinite-loading": "^2.4.5",
+        "vue-navigation-bar": "^4.1.0",
+        "vue-router": "^3.0.3",
+        "vuex": "^3.0.1"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^3.6.0",
+        "@vue/cli-plugin-e2e-cypress": "^5.0.8",
+        "@vue/cli-plugin-eslint": "^3.6.0",
+        "@vue/cli-plugin-unit-jest": "^4.5.10",
+        "@vue/cli-service": "^3.6.0",
+        "@vue/test-utils": "^1.0.3",
+        "babel-eslint": "^10.0.1",
+        "babel-jest": "^22.4.3",
+        "cypress-localstorage-commands": "^2.2.1",
+        "eslint": "^5.16.0",
+        "eslint-plugin-vue": "^5.0.0",
+        "sass": "^1.18.0",
+        "sass-loader": "^7.1.0",
+        "vue-cli-plugin-element-ui": "^1.1.4",
+        "vue-jest": "^3.0.7",
+        "vue-template-compiler": "^2.5.21"
+    }
+}

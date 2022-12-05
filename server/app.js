@@ -1,18 +1,19 @@
 /* eslint-disable no-unused-vars */
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mongoose = require('mongoose');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
 const checkToken = require('./middleware/checkToken')
+const config = require("./bin/config")
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var recordRouter = require('./routes/record');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const recordRouter = require('./routes/record');
 
-var app = express();
+const app = express();
 
 app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -35,8 +36,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/record', recordRouter);
+app.use('/users', usersRouter.router);
+app.use('/record', recordRouter.router);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -54,9 +55,13 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-mongoose.connect('mongodb://127.0.0.1:27017/list', { useNewUrlParser: true });
+mongoose.set('useFindAndModify', false);
+mongoose.connect(`mongodb://${config.db_server}:${config.db_port}/list`, { useNewUrlParser: true });
 mongoose.connection.on("connected", () => {
     console.log('mongodb connected success')
+
+    // ! WARNING: This is a hack to insert anonumous user info
+    usersRouter.util.register({ "body": { "email": "anonymous@anonymous.com" } }, { "json": () => { } }, null)
 })
 mongoose.connection.on("error", () => {
     console.log('mongodb connected fail')

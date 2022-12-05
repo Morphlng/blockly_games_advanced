@@ -1,22 +1,27 @@
 /* eslint-disable no-unused-vars */
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user.js');
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user.js');
 const config = require('../bin/config');
 const createToken = require('../middleware/createToken.js')
-// const checkToken = require('../middleware/checkToken.js')
 const sendMail = require('../middleware/sendMail.js')
 const sha1 = require('sha1')
 const moment = require('moment')
 const objectIdToTimestamp = require('objectid-to-timestamp')
 
+/* ----------------Function definition---------------- */
+// 注册
+function register(req, res, next) {
+    let living = false;
+    if (req.body.email === 'anonymous@anonymous.com') {
+        req.body.password = Math.random().toString(36).substring(2, 10);
+        living = true;
+    }
 
-/* 注册 */
-router.post('/register', function (req, res, next) {
     let userRegister = new User({
         email: req.body.email,
         password: sha1(req.body.password),
-        islive: false
+        islive: living
     })
     // 将 objectid 转换为 用户创建时间
     userRegister.create_time = moment(objectIdToTimestamp(userRegister._id)).format('YYYY-MM-DD HH:mm:ss');
@@ -46,25 +51,27 @@ router.post('/register', function (req, res, next) {
                     msg: '加入成功',
                     result: doc
                 })
-
             })
         }
     })
-});
+}
 
-/* 登录 */
-router.post('/login', function (req, res, next) {
+// 登录
+function login(req, res, next) {
     let userLogin = new User({
         email: req.body.email,
-        password: sha1(req.body.password),
         token: createToken(this.email)
-    })
-    console.log('userLogin:' + userLogin)
+    });
+
+    let anonymous = false;
+    if (userLogin.email === 'anonymous@anonymous.com')
+        anonymous = true;
+    else
+        userLogin.password = sha1(req.body.password)
 
     User.findOne({
         email: (userLogin.email).toLowerCase()
     }, (err, doc) => {
-        console.log('doc:' + doc)
         if (err) {
             res.json({
                 status: '1',
@@ -84,7 +91,7 @@ router.post('/login', function (req, res, next) {
                 result: ''
             })
         } else {
-            if (userLogin.password == doc.password) {
+            if (anonymous || userLogin.password == doc.password) {
                 res.json({
                     status: '0',
                     msg: '登录成功',
@@ -99,13 +106,13 @@ router.post('/login', function (req, res, next) {
             }
         }
     })
-});
+}
 
-router.post('/find', function (req, res, next) {
+// 查找用户
+function findUser(req, res, next) {
     User.findOne({
         email: (req.body.email).toLowerCase()
     }, (err, doc) => {
-        console.log('doc:' + doc)
         if (err) {
             res.json({
                 status: '1',
@@ -126,54 +133,22 @@ router.post('/find', function (req, res, next) {
             })
         }
     })
-});
+}
 
-/* 打印所有用户 */
-router.post('/all', function (req, res, next) {
-    User.find({}, (err, doc) => {
-        if (err) {
-            res.json({
-                status: '1',
-                msg: '查询失败',
-                result: ''
-            })
-        } else {
-            res.json({
-                status: '0',
-                msg: '查询成功',
-                result: doc
-            })
-        }
-    })
-});
-
-/* 删除用户 */
-router.post('/delUser', function (req, res, next) {
-    User.findOneAndRemove({ _id: req.body.id }, (err, doc) => {
-        if (err) {
-            res.json({
-                status: '1',
-                msg: '删除失败',
-                result: ''
-            })
-        } else {
-            res.json({
-                status: '0',
-                msg: '删除成功',
-                result: ''
-            })
-        }
-    })
-});
-
-
-/* 验证用户 */
-router.get('/checkCode', function (req, res, next) {
+// 验证用户
+function checkCode(req, res, next) {
     var email = req.query.email;
     var code = req.query.code;
 
     User.findOne({ email: email }, function (err, user) {
-        if (user._id == code) {
+        if (err) {
+            res.json({
+                status: '1',
+                msg: '用户不存在',
+                result: ''
+            })
+        }
+        else if (user._id == code) {
             User.update({ email: email }, { islive: true }, function (err, doc) {
                 if (err) {
                     res.json({
@@ -186,8 +161,30 @@ router.get('/checkCode', function (req, res, next) {
                 }
             });
         }
+        else {
+            res.json({
+                status: '1',
+                msg: '不匹配的验证码',
+                result: ''
+            })
+        }
     });
-});
+}
+
+/* ----------------Routes---------------- */
+router.post('/register', register);
+router.post('/login', login);
+router.post('/find', findUser);
+router.get('/checkCode', checkCode);
 
 
-module.exports = router;
+module.exports = {
+    "router": router,
+    "util":
+    {
+        "register": register,
+        "login": login,
+        "findUser": findUser,
+        "checkCode": checkCode
+    }
+};

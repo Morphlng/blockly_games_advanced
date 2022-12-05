@@ -1,18 +1,19 @@
 /* eslint-disable no-unused-vars */
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mongoose = require('mongoose');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
 const checkToken = require('./middleware/checkToken')
+const config = require("./bin/config")
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var recordRouter = require('./routes/record');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const recordRouter = require('./routes/record');
 
-var app = express();
+const app = express();
 
 app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -54,7 +55,8 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-mongoose.connect('mongodb://127.0.0.1:27017/list', { useNewUrlParser: true });
+mongoose.set('useFindAndModify', false);
+mongoose.connect(`mongodb://${config.db_server}:${config.db_port}/list`, { useNewUrlParser: true });
 mongoose.connection.on("connected", () => {
     console.log('mongodb connected success')
 

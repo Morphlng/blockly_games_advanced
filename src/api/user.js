@@ -14,17 +14,10 @@ const list = {
     login(params) {
         return axios.post(`/users/login`, qs.stringify(params))
     },
+    // 查询某一用户
     findUser(params) {
         return axios.post('/users/find', qs.stringify(params));
-    },
-    // 所有用户
-    allUsers() {
-        return axios.post(`/users/all`)
-    },
-    // 删除用户
-    delUser(params) {
-        return axios.post(`/users/delUser`, qs.stringify(params))
-    },
+    }
 }
 
 export default list;

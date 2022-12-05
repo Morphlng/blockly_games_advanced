@@ -35,8 +35,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/record', recordRouter);
+app.use('/users', usersRouter.router);
+app.use('/record', recordRouter.router);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -57,6 +57,9 @@ app.use(function (err, req, res, next) {
 mongoose.connect('mongodb://127.0.0.1:27017/list', { useNewUrlParser: true });
 mongoose.connection.on("connected", () => {
     console.log('mongodb connected success')
+
+    // ! WARNING: This is a hack to insert anonumous user info
+    usersRouter.util.register({ "body": { "email": "anonymous@anonymous.com" } }, { "json": () => { } }, null)
 })
 mongoose.connection.on("error", () => {
     console.log('mongodb connected fail')

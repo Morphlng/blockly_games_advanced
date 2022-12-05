@@ -31,20 +31,23 @@
 
 > 注：使用国内网络安装前端npm依赖时，可能会遇到Cypress安装失败的问题。
 > 
-> 1. 如果你是生产用户，请在package.json中删除"@vue/cli-plugin-e2e-cypress"与"cypress-localstorage-commands"两个依赖后重新安装。
+> 1. 如果你是生产用户，请在`package.json`中删除"@vue/cli-plugin-e2e-cypress"与"cypress-localstorage-commands"两个依赖后重新安装。另外，你需要删除`.eslintrc.js`中"extends"下的cypress插件
 > 
 > 2. 如果你是开发者，可以从[百度网盘](https://pan.baidu.com/s/1NEe8jVrpCaYhkWV94ns6Bw?pwd=eulx)（提取码：eulx）下载离线版本（提供的是Linux x86_64版本，其他版本请参照该[说明](https://www.bilibili.com/read/cv14322137)下载），然后设置环境变量`export CYPRESS_INSTALL_BINARY="{path_to}/cypress.zip"`即可
 
 ## 使用说明
 
-1. 共有两处在部署时需要修改：
+1. 共有三处在部署时需要修改：
 
     - 前端：`src/api/url.js`中，请将production对应的地址改为你后端服务器的：{ip/域名}:{端口}
     - 后端：`server/bin/config.js`中，请将web_server改为前端的“ip/域名”，web_port改为前端“端口”
+    - 开发者邮箱：`server/bin/config.js`中，请将email和email_pass替换为你自己的邮箱。配置方式可参考[博客](https://blog.csdn.net/qq_40571631/article/details/89206851)
 
-2. 回到根目录：`cd blockly_games_advanced`
-3. 启动后端：`node ./server/bin/www`
-4. 启动前端：`npm run serve`
+> 开发环境中使用默认配置，前端："localhost:8080"；后端：“localhost:3000”
+
+1. 回到根目录：`cd blockly_games_advanced`
+2. 启动后端：`node ./server/bin/www`
+3. 启动前端：`npm run serve`
 
 > 注：前后端需要在不同shell中启动，或使用nohup等命令后台启动
 

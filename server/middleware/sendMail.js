@@ -6,15 +6,15 @@ var transporter = nodemailer.createTransport(
     {
         service: 'qq',
         auth: {   // 发送者的账户和授权码
-            user: '744247457@qq.com', // 账户
-            pass: 'ukhlqhkehfdnbcgc', // smtp授权码，到邮箱设置下获取
+            user: config.email, // 账户
+            pass: config.email_pass, // smtp授权码，到邮箱设置下获取
         }
     }
 );
 
 module.exports = function (email, code) {
     var mailOptions = {
-        from: "744247457@qq.com", // 发信邮箱
+        from: config.email, // 发信邮箱
         to: email, // 接收者邮箱
         subject: "Blockly_games_advanced 验证电子邮箱", // 邮件主题
         text: "您好！",

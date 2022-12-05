@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 
 let unLogin = {
     get: [
+        '/',
         '/users/checkCode'
     ],
     post: [

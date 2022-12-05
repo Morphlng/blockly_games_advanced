@@ -6,7 +6,9 @@ var Record = require('../models/record');
 var validLevel = require('../middleware/validLevel')
 const moment = require('moment');
 
-router.post('/load', function (req, res, next) {
+/* ----------------Function definition---------------- */
+// 加载进度
+function loadProgress(req, res, next) {
     console.log("Backend-load:", req.body);
     // 查询并返回已保存关卡的进度
     User.findOne({
@@ -41,9 +43,10 @@ router.post('/load', function (req, res, next) {
             })
         }
     });
-});
+}
 
-router.post('/save', function (req, res, next) {
+// 保存进度
+function saveProgress(req, res, next) {
     // 接收当前关卡进度并更新数据库
     User.findOne({
         email: req.body.email,
@@ -109,6 +112,18 @@ router.post('/save', function (req, res, next) {
         msg: '保存进度成功',
         result: ''
     });
-});
+}
 
-module.exports = router;
+/* ----------------Routes---------------- */
+router.post('/load', loadProgress);
+router.post('/save', saveProgress);
+
+
+module.exports = {
+    "router": router,
+    "util":
+    {
+        "load": loadProgress,
+        "save": saveProgress,
+    }
+}

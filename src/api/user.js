@@ -12,9 +12,6 @@ const list = {
     },
     // 登录
     login(params) {
-        if (params.email === 'anonymous@anonymous.com') {
-            params.password = "pQSwekqPep5WRR";
-        }
         return axios.post(`/users/login`, qs.stringify(params))
     },
     findUser(params) {

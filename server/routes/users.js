@@ -3,11 +3,11 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user.js');
 const config = require('../bin/config');
-const createToken = require('../middleware/createToken.js')
-const sendMail = require('../middleware/sendMail.js')
-const sha1 = require('sha1')
-const moment = require('moment')
-const objectIdToTimestamp = require('objectid-to-timestamp')
+const createToken = require('../middleware/createToken.js');
+const sendMail = require('../middleware/sendMail.js');
+const sha1 = require('sha1');
+const moment = require('moment');
+const objectIdToTimestamp = require('objectid-to-timestamp');
 
 /* ----------------Function definition---------------- */
 // 注册
@@ -58,7 +58,7 @@ function register(req, res, next) {
 
 // 登录
 function login(req, res, next) {
-    let userLogin = new User({
+    const userLogin = new User({
         email: req.body.email,
         token: createToken(this.email)
     });
@@ -82,13 +82,13 @@ function login(req, res, next) {
             res.json({
                 status: '1',
                 msg: '账号不存在',
-                result: doc
+                result: ''
             })
         } else if (!doc.islive) {
             res.json({
                 status: '1',
                 msg: '账号未激活',
-                result: ''
+                result: doc
             })
         } else {
             if (anonymous || userLogin.password == doc.password) {

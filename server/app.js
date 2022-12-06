@@ -5,10 +5,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-const checkToken = require('./middleware/checkToken')
-const config = require("./bin/config")
+const checkToken = require('./middleware/checkToken');
+const config = require("./bin/config");
 
-
+// import Routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const recordRouter = require('./routes/record');
@@ -19,11 +19,11 @@ app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    res.header("X-Powered-By", ' 3.2.1')
+    res.header("X-Powered-By", ' 3.2.1');
     if (req.method == "OPTIONS") res.send(200); /*让options请求快速返回*/
     else next();
 });
-app.use(checkToken)
+app.use(checkToken);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,17 +57,20 @@ app.use(function (err, req, res, next) {
 
 mongoose.set('useFindAndModify', false);
 mongoose.connect(`mongodb://${config.db_server}:${config.db_port}/list`, { useNewUrlParser: true });
+
 mongoose.connection.on("connected", () => {
-    console.log('mongodb connected success')
+    console.log('mongodb connection succeed');
 
     // ! WARNING: This is a hack to insert anonumous user info
-    usersRouter.util.register({ "body": { "email": "anonymous@anonymous.com" } }, { "json": () => { } }, null)
-})
+    usersRouter.util.register({ "body": { "email": "anonymous@anonymous.com" } }, { "json": () => { } }, null);
+});
+
 mongoose.connection.on("error", () => {
-    console.log('mongodb connected fail')
-})
+    console.log('mongodb connection failed');
+});
+
 mongoose.connection.on("disconnected", () => {
-    console.log('mongodb connected disconnected')
-})
+    console.log('mongodb connection disconnected');
+});
 
 module.exports = app;

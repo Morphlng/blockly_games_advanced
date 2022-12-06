@@ -14,4 +14,4 @@ module.exports = {
     // This is the email configuration
     email: '744247457@qq.com',
     email_pass: 'ukhlqhkehfdnbcgc',
-}
+};

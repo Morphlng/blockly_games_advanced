@@ -1,38 +1,30 @@
 /* eslint-disable no-unused-vars */
-const app = require("../app")
-const axios = require("axios")
-const mongoose = require('mongoose');
-const User = require("../models/user")
-
-jest.setTimeout(2000);
+const mongoose = require("mongoose");
+const axios = require("axios");
+const User = require("../models/user");
 
 describe("User API tests", () => {
 
-    let server;
     let test_doc_id;
 
-    async function startServer() {
-        return new Promise((resolve) => {
-            server = app.listen(3000);
-            resolve();
-        });
+    async function connectDB() {
+        await mongoose.connect(`mongodb://localhost:27017/list`);
     }
 
-    async function cleanupServer() {
-        await User.findOneAndRemove({ _id: test_doc_id }, (err, doc) => {
-            if (err) {
-                console.log("delete test data failed!");
-            }
-        });
-
-        server.close();
+    async function cleanupData() {
+        try {
+            const user = await User.findOneAndRemove({ _id: test_doc_id });
+        } catch (err) {
+            console.log(err.message);
+        }
 
         await mongoose.disconnect();
+
+        console.log("cleaned up user test...");
     }
 
-    beforeAll(startServer, 3000);
-
-    afterAll(cleanupServer, 3000);
+    beforeAll(connectDB, 3000);
+    afterAll(cleanupData, 3000);
 
     it("Login with anonymous account", async () => {
         const response = await axios.post(
@@ -49,7 +41,7 @@ describe("User API tests", () => {
         const response = await axios.post(
             'http://localhost:3000/users/login',
             {
-                email: 'fake_email@test.com',
+                email: 'fake_email_user@test.com',
                 password: '123456'
             }
         );
@@ -61,7 +53,7 @@ describe("User API tests", () => {
         const response = await axios.post(
             'http://localhost:3000/users/register',
             {
-                email: 'fake_email@test.com',
+                email: 'fake_email_user@test.com',
                 password: '123456'
             }
         );
@@ -80,7 +72,7 @@ describe("User API tests", () => {
         const response = await axios.post(
             'http://localhost:3000/users/login',
             {
-                email: 'fake_email@test.com',
+                email: 'fake_email_user@test.com',
                 password: '123456'
             }
         );
@@ -100,7 +92,7 @@ describe("User API tests", () => {
                 'http://localhost:3000/users/checkCode',
                 {
                     params: {
-                        email: 'fake_email@test.com',
+                        email: 'fake_email_user@test.com',
                         code: test_doc_id
                     }
                 }
@@ -115,7 +107,7 @@ describe("User API tests", () => {
         const response = await axios.post(
             'http://localhost:3000/users/login',
             {
-                email: 'fake_email@test.com',
+                email: 'fake_email_user@test.com',
                 password: '123test' // should be "123456"
             }
         );
@@ -127,7 +119,7 @@ describe("User API tests", () => {
         const response = await axios.post(
             'http://localhost:3000/users/login',
             {
-                email: 'fake_email@test.com',
+                email: 'fake_email_user@test.com',
                 password: '123456'
             }
         );

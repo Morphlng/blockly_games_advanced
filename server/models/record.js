@@ -6,6 +6,6 @@ const recordSchema = new Schema({
     level: String,
     progress: String,
     save_time: Date,
-})
+});
 
-module.exports = mongoose.model('Record', recordSchema)
+module.exports = mongoose.model('Record', recordSchema);

@@ -1,8 +1,8 @@
-const config = require('../bin/config')
-const nodemailer = require('nodemailer')
+const config = require('../bin/config');
+const nodemailer = require('nodemailer');
 
 // TODO：Change the email address and password to your own!!
-var transporter = nodemailer.createTransport(
+const transporter = nodemailer.createTransport(
     {
         service: 'qq',
         auth: {   // 发送者的账户和授权码
@@ -13,7 +13,7 @@ var transporter = nodemailer.createTransport(
 );
 
 module.exports = function (email, code) {
-    var mailOptions = {
+    const mailOptions = {
         from: config.email, // 发信邮箱
         to: email, // 接收者邮箱
         subject: "Blockly_games_advanced 验证电子邮箱", // 邮件主题
@@ -29,7 +29,7 @@ module.exports = function (email, code) {
         }
         console.log('Message sent: ' + info.response);
     });
-}
+};
 
 
 

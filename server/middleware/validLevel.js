@@ -1,6 +1,6 @@
 module.exports = {
     // 拼图
-    puzzule1: true,
+    puzzle1: true,
     // 迷宫
     maze1: true,
     maze2: true,
@@ -69,4 +69,4 @@ module.exports = {
     'pond-tutor10': true,
     // 池塘
     'pond-duck1': true
-}
+};

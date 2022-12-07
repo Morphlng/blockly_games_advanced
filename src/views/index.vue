@@ -6,7 +6,8 @@
 </template>
 
 <script>
-import level from "@/components/level"
+import { Loading } from 'element-ui';
+import level from "@/components/level";
 import navigation from "@/components/navigation";
 
 export default {
@@ -18,6 +19,8 @@ export default {
         }
     },
     mounted() {
+        console.log(this);
+
         window.onstorage = (event) => {
             let record = {};
             record[event.key] = event.newValue;
@@ -35,6 +38,27 @@ export default {
     methods: {
         changePage(dest) {
             this.showNav = (dest == 'index') ? true : false;
+
+            // Call on a dummy api to check validity of token
+            this.$api.user.findUser({
+                email: localStorage.getItem('username')
+            }).then((res) => {
+                if (res.data.status == '401') {
+                    let _this = this;
+                    let loadingInstance = Loading.service({ fullscreen: true, background: 'rgba(0, 0, 0, 0.5)' });
+
+                    this.$message({
+                        showClose: true,
+                        message: res.data.msg + "，即将跳转至登陆页面",
+                        type: 'error',
+                        duration: 3000,
+                        onClose: () => {
+                            loadingInstance.close();
+                            _this.$router.push('/login');
+                        }
+                    });
+                }
+            })
         }
     }
 }

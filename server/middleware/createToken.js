@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = function (name) {
+module.exports = function (name, expiresIn = '7d') {
     const token = jwt.sign({
         name: name
-    }, 'secret', { expiresIn: '1h' });
+    }, 'secret', { expiresIn: expiresIn });
 
     return token;
 }

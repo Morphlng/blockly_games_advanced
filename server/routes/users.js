@@ -64,10 +64,13 @@ function login(req, res, next) {
     });
 
     let anonymous = false;
-    if (userLogin.email === 'anonymous@anonymous.com')
+    if (userLogin.email === 'anonymous@anonymous.com') {
         anonymous = true;
-    else
+        userLogin.token = createToken(this.email, "1y");
+    }
+    else {
         userLogin.password = sha1(req.body.password)
+    }
 
     User.findOne({
         email: (userLogin.email).toLowerCase()

@@ -31,7 +31,7 @@ module.exports = function (req, res, next) {
     if (!token) {
         return res.json({
             status: 401,
-            msg: 'you need to login: there is no token'
+            msg: 'token不存在'
         });
     }
     console.log('checkToken:' + token);

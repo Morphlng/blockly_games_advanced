@@ -1,6 +1,7 @@
 <template>
     <div style="width: 100%; height: 100%;">
         <navigation v-show="showNav"></navigation>
+        <timer v-show="!showNav" ref="timer"></timer>
         <level :src="'blockly_games' + level" @updateFrame="changePage"></level>
     </div>
 </template>
@@ -9,18 +10,17 @@
 import { Loading } from 'element-ui';
 import level from "@/components/level";
 import navigation from "@/components/navigation";
+import timer from '@/components/timer'
 
 export default {
-    components: { level, navigation },
+    components: { level, navigation, timer },
     data() {
         return {
             showNav: true,
-            level: '/index.html'
+            level: '/index.html',
         }
     },
     mounted() {
-        console.log(this);
-
         window.onstorage = (event) => {
             let record = {};
             record[event.key] = event.newValue;
@@ -28,6 +28,13 @@ export default {
 
             if (event.newValue != null && record.email != 'anonymous@anonymous.com') {
                 this.$api.record.save(record);
+
+                // TODO: I suggest add time to record directly
+                this.$api.time.save({
+                    "email": record.email,
+                    "time": this.$refs.timer.curtime(),
+                    "level": event.key
+                });
             }
         };
 
@@ -36,7 +43,15 @@ export default {
         }
     },
     methods: {
+        showtime(dest) {
+            if (dest != 'index') {
+                let timer = this.$refs.timer
+                timer.reset();
+                timer.start();
+            }
+        },
         changePage(dest) {
+            this.showtime(dest);
             this.showNav = (dest == 'index') ? true : false;
 
             // Call on a dummy api to check validity of token

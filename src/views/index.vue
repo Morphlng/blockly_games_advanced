@@ -1,8 +1,11 @@
 <template>
     <div style="width: 100%; height: 100%">
-        <navigation v-show="showNav"></navigation>
-        <timer v-show="!showNav" ref="timer"></timer>
+        <navigation v-show="isIndex"></navigation>
+        <timer v-show="timerVis" ref="timer"></timer>
         <level :src="'blockly_games' + level" @updateFrame="changePage"></level>
+        <float-btn :form="form" v-show="!isIndex">
+            <toolbox :lvl="lvl" @hidetimer="switchtimervis"></toolbox>
+        </float-btn>
     </div>
 </template>
 
@@ -11,13 +14,29 @@ import { Loading } from "element-ui";
 import level from "@/components/level";
 import navigation from "@/components/navigation";
 import timer from "@/components/timer";
-
+import FloatBtn from '../components/floatBtn.vue';
+import Toolbox from '../components/toolbox.vue';
 export default {
-    components: { level, navigation, timer },
+    components: { level, navigation, timer,FloatBtn,Toolbox},
     data() {
         return {
-            showNav: true,
+            isIndex: true,
+            timerVis:false,
             level: "/index.html",
+            lvl:"",
+            form: {
+                themeColor: {
+                hsl: { h: 200, s: 0, l: 0, a: 1 },
+                hex: '#000000',
+                hex8: '#000000FF',
+                rgba: { r: 0, g: 0, b: 0, a: 1 },
+                hsv: { h: 200, s: 0, v: 0, a: 1 },
+                oldHue: 200,
+                source: 'hex',
+                a: 1,
+                },
+                fontSize: 28,
+            },
         };
     },
     mounted() {
@@ -36,6 +55,9 @@ export default {
         }
     },
     methods: {
+        switchtimervis(){
+            this.timerVis = !this.timerVis
+        },
         showtime(dest) {
             if (dest != "index") {
                 let timer = this.$refs.timer;
@@ -46,8 +68,9 @@ export default {
         changePage(dest) {
             // E.g. dest: { chapter:'maze', level: '1' }
             this.showtime(dest.chapter);
-            this.showNav = dest.chapter == "index" ? true : false;
-
+            this.lvl = dest.chapter+dest.level
+            this.isIndex = dest.chapter == "index" ? true : false;
+            this.timerVis = !this.isIndex
             // Call on a dummy api to check validity of token
             this.$api.user
                 .findUser({

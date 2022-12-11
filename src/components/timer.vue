@@ -129,13 +129,13 @@ methods: {
   align-items: flex-end;
   justify-content: flex-end;
   position: absolute;
-  bottom: 70px;
-  left: 50px;
-  width: 300px;
-  height: 68px;
+  bottom: 5%;
+  left: 2%;
+  width: 10%;
+  height: 5%;
 }
 .time {
-  font-size: 48px;
+  font-size: 3vh;
   color: #ffffff;
 }
 </style>

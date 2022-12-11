@@ -46,6 +46,7 @@ export default {
             record["email"] = localStorage.getItem("username");
 
             if (event.newValue != null && record.email != "anonymous@anonymous.com") {
+                this.$refs.timer.stop();
                 this.$api.record.save(record);
             }
         };

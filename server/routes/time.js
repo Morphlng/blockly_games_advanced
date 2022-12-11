@@ -43,8 +43,6 @@ router.post("/save", async function (req, res, next) {
         best_time = prev_record.time;
     }
 
-    // TODO: update if better
-    // Is the timestr comparable?
     if (!best_time || best_time > obj.time) {
         Time.findOneAndUpdate(
             {

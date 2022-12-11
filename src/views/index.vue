@@ -1,7 +1,7 @@
 <template>
     <div style="width: 100%; height: 100%">
-        <navigation v-show="showNav"></navigation>
-        <timer v-show="!showNav" ref="timer"></timer>
+        <navigation v-show="isIndex"></navigation>
+        <timer v-show="!isIndex" ref="timer"></timer>
         <level :src="'blockly_games' + level" @updateFrame="changePage"></level>
     </div>
 </template>
@@ -16,7 +16,7 @@ export default {
     components: { level, navigation, timer },
     data() {
         return {
-            showNav: true,
+            isIndex: true,
             level: "/index.html",
         };
     },
@@ -27,6 +27,7 @@ export default {
             record["email"] = localStorage.getItem("username");
 
             if (event.newValue != null && record.email != "anonymous@anonymous.com") {
+                this.$refs.timer.stop();
                 this.$api.record.save(record);
             }
         };
@@ -36,7 +37,7 @@ export default {
         }
     },
     methods: {
-        showtime(dest) {
+        startTimer(dest) {
             if (dest != "index") {
                 let timer = this.$refs.timer;
                 timer.reset();
@@ -45,8 +46,8 @@ export default {
         },
         changePage(dest) {
             // E.g. dest: { chapter:'maze', level: '1' }
-            this.showtime(dest.chapter);
-            this.showNav = dest.chapter == "index" ? true : false;
+            this.isIndex = dest.chapter == "index" ? true : false;
+            this.startTimer(dest.chapter);
 
             // Call on a dummy api to check validity of token
             this.$api.user

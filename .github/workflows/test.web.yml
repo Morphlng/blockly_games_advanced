@@ -26,6 +26,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
+      - name: Install Cypress
+        run: |
+          npm install --save-dev cypress &&
+          npm install -g cypress
+
       - name: Run Backend
         run: |
           cd server &&
@@ -37,8 +42,5 @@ jobs:
           npm install &&
           npm run serve &
 
-      - name: Install and run Cypress Test
-        run: |
-          npm install -g cypress &&
-          npm install --save-dev cypress &&
-          cypress run
+      - name: Run cypress test
+        run: cypress run

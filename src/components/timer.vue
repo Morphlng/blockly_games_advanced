@@ -1,10 +1,10 @@
 <template>
-    <div class="timer">
-    <span id="txt">{{txt}}</span>
-    <!-- <input @click="start()" type="button" value="开始"> -->
-    <!-- <input @click="stop()" type="button" value="暂停">  -->
-    <!-- <input @click="reset()" type="button" value="重置">      -->
+    <!-- <div class="timer">
+    <span id="txt">{{txt}}</span> -->
+    <div class="dateBox">
+    <div class="time">{{ txt }}</div>
     </div>
+    <!-- </div> -->
 </template>
 <script>
     export default {
@@ -61,3 +61,23 @@ methods: {
  }
 }
 </script>
+<style scoped>
+.dateBox {
+  border: 2px solid #A9C9E2;
+ background: burlywood;
+ background-image: url("../../assets/images/timer2.png");
+ background-repeat: no-repeat;
+ display: flex;
+ align-items: flex-end;
+ justify-content: flex-end;
+ position: absolute;
+ bottom: 70px;
+ left: 50px;
+ width: 300px;
+ height: 68px;
+}
+.time {
+ font-size: 48px;
+ color: #ffffff;
+}
+</style>

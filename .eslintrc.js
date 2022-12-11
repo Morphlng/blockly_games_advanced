@@ -1,18 +1,13 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    es6: true,
   },
-  'extends': [
-    'plugin:vue/essential',
-    "plugin:cypress/recommended",
-    'eslint:recommended'
-  ],
-  rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  },
+  extends: ["plugin:jest/recommended", "eslint:recommended"],
+  rules: {},
   parserOptions: {
-    parser: 'babel-eslint'
-  }
-}
+    ecmaVersion: 8,
+    parser: "@babel/eslint-parser",
+  },
+};

@@ -1,22 +1,23 @@
 <template>
     <infinite-loading></infinite-loading>
 </template>
-  
+
 <script>
-import InfiniteLoading from 'vue-infinite-loading';
+import InfiniteLoading from "vue-infinite-loading";
 
 export default {
     components: {
-        InfiniteLoading
+        InfiniteLoading,
     },
     mounted() {
-        this.$store.dispatch('UserLogout');
-        // TODO: Should we clear localStorage?
+        this.$store.dispatch("UserLogout");
+
         if (!this.$store.state.token) {
-            this.$router.push('/login')
+            localStorage.clear();
+            this.$router.push("/login");
         } else {
-            this.$message.error('退出失败');
+            this.$message.error("退出失败");
         }
-    }
+    },
 };
 </script>

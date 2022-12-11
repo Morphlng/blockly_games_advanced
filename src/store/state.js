@@ -1,7 +1,7 @@
 const state = {
     token: null,
-    activeName: 'first',
-    username: ''
-}
+    activeName: "first",
+    username: "",
+};
 
-export default state
+export default state;

@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 100%; height: 100%;">
+    <div style="width: 100%; height: 100%">
         <navigation v-show="showNav"></navigation>
         <timer v-show="!showNav" ref="timer"></timer>
         <level :src="'blockly_games' + level" @updateFrame="changePage"></level>
@@ -7,74 +7,77 @@
 </template>
 
 <script>
-import { Loading } from 'element-ui';
+import { Loading } from "element-ui";
 import level from "@/components/level";
 import navigation from "@/components/navigation";
-import timer from '@/components/timer'
+import timer from "@/components/timer";
 
 export default {
     components: { level, navigation, timer },
     data() {
         return {
             showNav: true,
-            level: '/index.html',
-        }
+            level: "/index.html",
+        };
     },
     mounted() {
         window.onstorage = (event) => {
+            if (event.key == "username")
+                localStorage.setItem("username", event.oldValue);
+
             let record = {};
             record[event.key] = event.newValue;
-            record["email"] = localStorage.getItem('username');
+            record["email"] = localStorage.getItem("username");
 
-            if (event.newValue != null && record.email != 'anonymous@anonymous.com') {
+            if (event.newValue != null && record.email != "anonymous@anonymous.com") {
                 this.$api.record.save(record);
-
-                // TODO: I suggest add time to record directly
-                this.$api.time.save({
-                    "email": record.email,
-                    "time": this.$refs.timer.curtime(),
-                    "level": event.key
-                });
             }
         };
 
-        if (window.location.pathname !== '/') {
-            this.level = window.location.pathname + '.html';
+        if (window.location.pathname !== "/") {
+            this.level = window.location.pathname + ".html";
         }
     },
     methods: {
         showtime(dest) {
-            if (dest != 'index') {
-                let timer = this.$refs.timer
+            if (dest != "index") {
+                let timer = this.$refs.timer;
                 timer.reset();
                 timer.start();
             }
         },
         changePage(dest) {
-            this.showtime(dest);
-            this.showNav = (dest == 'index') ? true : false;
+            // E.g. dest: { chapter:'maze', level: '1' }
+
+            this.showtime(dest.chapter);
+            this.showNav = dest.chapter == "index" ? true : false;
 
             // Call on a dummy api to check validity of token
-            this.$api.user.findUser({
-                email: localStorage.getItem('username')
-            }).then((res) => {
-                if (res.data.status == '401') {
-                    let _this = this;
-                    let loadingInstance = Loading.service({ fullscreen: true, background: 'rgba(0, 0, 0, 0.5)' });
+            this.$api.user
+                .findUser({
+                    email: localStorage.getItem("username"),
+                })
+                .then((res) => {
+                    if (res.data.status == "401") {
+                        let _this = this;
+                        let loadingInstance = Loading.service({
+                            fullscreen: true,
+                            background: "rgba(0, 0, 0, 0.5)",
+                        });
 
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg + "，即将跳转至登陆页面",
-                        type: 'error',
-                        duration: 3000,
-                        onClose: () => {
-                            loadingInstance.close();
-                            _this.$router.push('/login');
-                        }
-                    });
-                }
-            })
-        }
-    }
-}
+                        this.$message({
+                            showClose: true,
+                            message: res.data.msg + "，即将跳转至登陆页面",
+                            type: "error",
+                            duration: 3000,
+                            onClose: () => {
+                                loadingInstance.close();
+                                _this.$router.push("/login");
+                            },
+                        });
+                    }
+                });
+        },
+    },
+};
 </script>

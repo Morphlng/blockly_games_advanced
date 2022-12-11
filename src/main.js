@@ -15,3 +15,9 @@ new Vue({
     store,
     render: (h) => h(App),
 }).$mount("#app");
+
+// 加入全局localStorage守卫
+window.addEventListener('storage', function (event) {
+    if (event.key == "username")
+        localStorage.setItem("username", event.oldValue);
+})

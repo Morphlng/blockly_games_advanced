@@ -86,6 +86,9 @@ export default {
                 }
             );
         }
+        else {
+            localStorage.clear();
+        }
     },
     methods: {
         submitForm(formName) {

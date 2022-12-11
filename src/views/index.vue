@@ -22,9 +22,6 @@ export default {
     },
     mounted() {
         window.onstorage = (event) => {
-            if (event.key == "username")
-                localStorage.setItem("username", event.oldValue);
-
             let record = {};
             record[event.key] = event.newValue;
             record["email"] = localStorage.getItem("username");
@@ -48,7 +45,6 @@ export default {
         },
         changePage(dest) {
             // E.g. dest: { chapter:'maze', level: '1' }
-
             this.showtime(dest.chapter);
             this.showNav = dest.chapter == "index" ? true : false;
 

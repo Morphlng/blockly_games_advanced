@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const recordSchema = new Schema({
@@ -8,4 +8,4 @@ const recordSchema = new Schema({
     save_time: Date,
 });
 
-module.exports = mongoose.model('Record', recordSchema);
+module.exports = mongoose.model("Record", recordSchema);

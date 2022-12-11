@@ -1,15 +1,9 @@
 // 监测 token 是否过期
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 let unLogin = {
-    get: [
-        '/',
-        '/users/checkCode'
-    ],
-    post: [
-        '/users/login',
-        '/users/register'
-    ],
+    get: ["/", "/users/checkCode"],
+    post: ["/users/login", "/users/register"],
     put: [],
     delete: [],
 };
@@ -24,25 +18,25 @@ module.exports = function (req, res, next) {
         return next();
     }
 
-    const t = req.headers['authorization'].split(' ')[1];
+    const t = req.headers["authorization"].split(" ")[1];
     let token = t.substring(0, t.length - 1);
 
     // 没有token值，返回401
     if (!token) {
         return res.json({
             status: 401,
-            msg: 'token不存在'
+            msg: "token不存在",
         });
     }
-    console.log('checkToken:' + token);
+    console.log("checkToken:" + token);
 
     // 认证token
-    jwt.verify(token, 'secret', (err, decoded) => {
+    jwt.verify(token, "secret", (err, decoded) => {
         console.log("verifying, decoded data:", decoded);
         if (err || typeof decoded == "undefined") {
             return res.json({
                 status: 401,
-                msg: 'token失效'
+                msg: "token失效",
             });
         } else {
             return next();

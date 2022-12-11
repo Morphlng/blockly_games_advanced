@@ -6,21 +6,26 @@
 export default {
     data() {
         return {
-            url: 'blockly_games/index.html'
-        }
+            url: "blockly_games/index.html",
+        };
     },
-    mounted() {
-    },
+    mounted() { },
     methods: {
         onLoad() {
             // modify window.location.href without refreshing
-            let frame = document.getElementById('myframe');
+            let frame = document.getElementById("myframe");
             let pathname = frame.contentWindow.location.pathname;
-            let level = pathname.split('/').pop().replace('.html', '');
-            history.pushState(null, null, level);
+            let search = frame.contentWindow.location.search;
 
-            this.$emit("updateFrame", level);
-        }
-    }
-}
+            let chapter = pathname.split("/").pop().replace(".html", "");
+            let level = search.split("level=")[1] || "1";
+            history.pushState(null, null, chapter);
+
+            this.$emit("updateFrame", {
+                chapter: chapter,
+                level: level,
+            });
+        },
+    },
+};
 </script>

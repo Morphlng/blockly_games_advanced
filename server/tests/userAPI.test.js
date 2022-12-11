@@ -4,7 +4,6 @@ const axios = require("axios");
 const User = require("../models/user");
 
 describe("User API tests", () => {
-
     let test_doc_id;
 
     async function connectDB() {
@@ -27,74 +26,64 @@ describe("User API tests", () => {
     afterAll(cleanupData, 3000);
 
     it("Login with anonymous account", async () => {
-        const response = await axios.post(
-            'http://localhost:3000/users/login',
-            {
-                email: 'anonymous@anonymous.com',
-            }
-        );
-        expect(response.data.status).toEqual('0');
-        expect(response.data.msg).toEqual("登录成功");
+        const response = await axios.post("http://localhost:3000/users/login", {
+            email: "anonymous@anonymous.com",
+        });
+        expect(response.data.status).toEqual("0");
+        expect(response.data.msg).toEqual("匿名登录");
     });
 
-    it('Login with non-exist account', async () => {
-        const response = await axios.post(
-            'http://localhost:3000/users/login',
-            {
-                email: 'fake_email_user@test.com',
-                password: '123456'
-            }
-        );
-        expect(response.data.status).toEqual('1');
+    it("Login with non-exist account", async () => {
+        const response = await axios.post("http://localhost:3000/users/login", {
+            email: "fake_email_user@test.com",
+            password: "123456",
+        });
+        expect(response.data.status).toEqual("1");
         expect(response.data.msg).toEqual("账号不存在");
     });
 
-    it('Register non-exist account', async () => {
-        const response = await axios.post(
-            'http://localhost:3000/users/register',
-            {
-                email: 'fake_email_user@test.com',
-                password: '123456'
-            }
-        );
+    it("Register non-exist account", async () => {
+        const response = await axios.post("http://localhost:3000/users/register", {
+            email: "fake_email_user@test.com",
+            password: "123456",
+        });
 
-        expect(response.data.status).toEqual('0');
+        expect(response.data.status).toEqual("0");
         test_doc_id = response.data.result._id;
 
         // wait for sendMail to finish.
-        await new Promise(resolve => setTimeout(() => {
-            expect(true).toBe(true);
-            resolve();
-        }, 1500));
+        await new Promise((resolve) =>
+            setTimeout(() => {
+                expect(true).toBe(true);
+                resolve();
+            }, 1500)
+        );
     });
 
-    it('Login with exist but inactive account', async () => {
-        const response = await axios.post(
-            'http://localhost:3000/users/login',
-            {
-                email: 'fake_email_user@test.com',
-                password: '123456'
-            }
-        );
-        expect(response.data.status).toEqual('1');
+    it("Login with exist but inactive account", async () => {
+        const response = await axios.post("http://localhost:3000/users/login", {
+            email: "fake_email_user@test.com",
+            password: "123456",
+        });
+        expect(response.data.status).toEqual("1");
         expect(response.data.msg).toEqual("账号未激活");
     });
 
     /*
-        TODO: This test will throw "Error: Connect ECONNREFUSED"
-        if web_server didn't start, this is expected. But it will also throw
-        "Error: Request failed with status code 404" even the web_server has started.
-        I'm not sure why is this happening, we'll skip the check for now.
-    */
-    it('Activate test account', async () => {
+          TODO: This test will throw "Error: Connect ECONNREFUSED"
+          if web_server didn't start, this is expected. But it will also throw
+          "Error: Request failed with status code 404" even the web_server has started.
+          I'm not sure why is this happening, we'll skip the check for now.
+      */
+    it("Activate test account", async () => {
         try {
             const response = await axios.get(
-                'http://localhost:3000/users/checkCode',
+                "http://localhost:3000/users/checkCode",
                 {
                     params: {
-                        email: 'fake_email_user@test.com',
-                        code: test_doc_id
-                    }
+                        email: "fake_email_user@test.com",
+                        code: test_doc_id,
+                    },
                 }
             );
         } catch (error) {
@@ -104,27 +93,20 @@ describe("User API tests", () => {
     });
 
     it("Login with exists account with wrong password", async () => {
-        const response = await axios.post(
-            'http://localhost:3000/users/login',
-            {
-                email: 'fake_email_user@test.com',
-                password: '123test' // should be "123456"
-            }
-        );
-        expect(response.data.status).toEqual('1');
+        const response = await axios.post("http://localhost:3000/users/login", {
+            email: "fake_email_user@test.com",
+            password: "123test", // should be "123456"
+        });
+        expect(response.data.status).toEqual("1");
         expect(response.data.msg).toEqual("密码错误");
-    })
+    });
 
     it("Login with exists account", async () => {
-        const response = await axios.post(
-            'http://localhost:3000/users/login',
-            {
-                email: 'fake_email_user@test.com',
-                password: '123456'
-            }
-        );
-        expect(response.data.status).toEqual('0');
+        const response = await axios.post("http://localhost:3000/users/login", {
+            email: "fake_email_user@test.com",
+            password: "123456",
+        });
+        expect(response.data.status).toEqual("0");
         expect(response.data.msg).toEqual("登录成功");
-    })
+    });
 });
-

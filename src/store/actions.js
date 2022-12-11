@@ -1,13 +1,13 @@
-import * as types from './mutation-types'
+import * as types from "./mutation-types";
 
 export default {
     UserLogin({ commit }, data) {
-        commit(types.LOGIN, data)
+        commit(types.LOGIN, data);
     },
     UserLogout({ commit }) {
-        commit(types.LOGOUT)
+        commit(types.LOGOUT);
     },
     UserName({ commit }, data) {
-        commit(types.USERNAME, data)
-    }
-}
+        commit(types.USERNAME, data);
+    },
+};

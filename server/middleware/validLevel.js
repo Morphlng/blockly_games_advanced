@@ -57,16 +57,16 @@ module.exports = {
     music9: true,
     music10: true,
     // 池塘教学
-    'pond-tutor1': true,
-    'pond-tutor2': true,
-    'pond-tutor3': true,
-    'pond-tutor4': true,
-    'pond-tutor5': true,
-    'pond-tutor6': true,
-    'pond-tutor7': true,
-    'pond-tutor8': true,
-    'pond-tutor9': true,
-    'pond-tutor10': true,
+    "pond-tutor1": true,
+    "pond-tutor2": true,
+    "pond-tutor3": true,
+    "pond-tutor4": true,
+    "pond-tutor5": true,
+    "pond-tutor6": true,
+    "pond-tutor7": true,
+    "pond-tutor8": true,
+    "pond-tutor9": true,
+    "pond-tutor10": true,
     // 池塘
-    'pond-duck1': true
+    "pond-duck1": true,
 };

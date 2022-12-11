@@ -1,7 +1,7 @@
 <template>
     <div class="login">
         <div class="logo">
-            <img src="../common/img/d-login.png" alt="">
+            <img src="../common/img/d-login.png" alt="" />
             <span>Blockly-Advanced</span>
         </div>
         <p>Hi! Are you ready for the future?</p>
@@ -25,28 +25,29 @@
                     </el-button>
                 </el-form-item>
             </el-form>
-            <p class='register'>
-                <router-link to='/login'>已有账号,去登录</router-link>
+            <p class="register">
+                <router-link to="/login">已有账号,去登录</router-link>
             </p>
         </div>
-
     </div>
 </template>
 
 <script>
-import loading from '@/components/loading'
+import loading from "@/components/loading";
 
 export default {
     components: { loading },
     data() {
         var checkEmail = (rule, value, callback) => {
-            var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+            var reg = new RegExp(
+                "^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"
+            );
             if (!value) {
-                return callback(new Error('邮箱不能为空'));
+                return callback(new Error("邮箱不能为空"));
             }
             setTimeout(() => {
                 if (!reg.test(value)) {
-                    callback(new Error('请输入正确的邮箱'));
+                    callback(new Error("请输入正确的邮箱"));
                 } else {
                     callback();
                 }
@@ -54,81 +55,80 @@ export default {
         };
         var validatePass = (rule, value, callback) => {
             let reg = /(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^[^\s\u4e00-\u9fa5]{6,16}$/;
-            if (value === '') {
-                callback(new Error('请输入密码'));
+            if (value === "") {
+                callback(new Error("请输入密码"));
             } else if (!reg.test(value)) {
-                callback(new Error('密码长度需6-16位，且包含字母和字符'))
+                callback(new Error("密码长度需6-16位，且包含字母和字符"));
             } else {
-                if (this.ruleForm.checkPass !== '') {
-                    this.$refs.ruleForm.validateField('checkPass');
+                if (this.ruleForm.checkPass !== "") {
+                    this.$refs.ruleForm.validateField("checkPass");
                 }
                 callback();
             }
         };
         var validatePass2 = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请再次输入密码'));
+            if (value === "") {
+                callback(new Error("请再次输入密码"));
             } else if (value !== this.ruleForm.pass) {
-                callback(new Error('两次输入密码不一致!'));
+                callback(new Error("两次输入密码不一致!"));
             } else {
                 callback();
             }
         };
         return {
             ruleForm: {
-                checkPass: '',
-                pass: '',
-                email: ''
+                checkPass: "",
+                pass: "",
+                email: "",
             },
             rules: {
-                pass: [
-                    { validator: validatePass, trigger: 'blur' }
-                ],
-                checkPass: [
-                    { validator: validatePass2, trigger: 'blur' }
-                ],
-                email: [
-                    { validator: checkEmail, trigger: 'blur' }
-                ]
+                pass: [{ validator: validatePass, trigger: "blur" }],
+                checkPass: [{ validator: validatePass2, trigger: "blur" }],
+                email: [{ validator: checkEmail, trigger: "blur" }],
             },
-            load: false
-        }
+            load: false,
+        };
     },
     methods: {
         submitForm(formName) {
-            this.load = true
+            this.load = true;
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$api.user.register({
-                        email: this.ruleForm.email,
-                        password: this.ruleForm.pass,
-                        recheck: this.ruleForm.checkPass
-                    }).then((res) => {
-                        this.load = false
-                        if (res.data.status == '0') {
-                            this.$alert('注册成功, 请您到您的邮箱中点击激活链接来激活您的帐号', '提示', {
-                                confirmButtonText: '确定',
-                                // eslint-disable-next-line no-unused-vars
-                                callback: action => {
-                                    this.$router.push('/login')
-                                }
-                            });
-                        } else {
-                            this.$message.error(res.data.msg);
-                        }
-
-                    })
+                    this.$api.user
+                        .register({
+                            email: this.ruleForm.email,
+                            password: this.ruleForm.pass,
+                            recheck: this.ruleForm.checkPass,
+                        })
+                        .then((res) => {
+                            this.load = false;
+                            if (res.data.status == "0") {
+                                this.$alert(
+                                    "注册成功, 请您到您的邮箱中点击激活链接来激活您的帐号",
+                                    "提示",
+                                    {
+                                        confirmButtonText: "确定",
+                                        // eslint-disable-next-line no-unused-vars
+                                        callback: (action) => {
+                                            this.$router.push("/login");
+                                        },
+                                    }
+                                );
+                            } else {
+                                this.$message.error(res.data.msg);
+                            }
+                        });
                 } else {
-                    console.log('error submit!!');
+                    console.log("error submit!!");
                     return false;
                 }
             });
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .login {
     width: 100%;
     height: 100%;
@@ -180,10 +180,9 @@ export default {
             margin: 10px;
 
             a {
-                color: #fff
+                color: #fff;
             }
         }
-
     }
 }
 </style>

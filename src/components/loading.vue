@@ -1,5 +1,5 @@
 <template>
-   <div class="load-container">
+    <div class="load-container">
         <div class="load load1"></div>
         <div class="load load2"></div>
         <div class="load"></div>
@@ -17,6 +17,7 @@ export default {
     width: 70px;
     display: inline;
     text-align: center;
+
     .load {
         width: 15px;
         height: 15px;
@@ -30,10 +31,12 @@ export default {
         -webkit-animation-fill-mode: both;
         animation-fill-mode: both;
     }
+
     .load1 {
         -webkit-animation-delay: -0.32s;
         animation-delay: -0.32s;
     }
+
     .load2 {
         -webkit-animation-delay: -0.16s;
         animation-delay: -0.16s;
@@ -41,17 +44,30 @@ export default {
 }
 
 @-webkit-keyframes bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0.0) }
-  40% { -webkit-transform: scale(1.0) }
+
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0.0)
+    }
+
+    40% {
+        -webkit-transform: scale(1.0)
+    }
 }
 
 @keyframes bouncedelay {
-  0%, 80%, 100% {
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  } 40% {
-    transform: scale(1.0);
-    -webkit-transform: scale(1.0);
-  }
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+
+    40% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
 }
 </style>

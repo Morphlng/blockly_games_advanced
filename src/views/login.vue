@@ -1,7 +1,7 @@
 <template>
     <div class="login">
         <div class="logo">
-            <img src="../common/img/d-login.png" alt="">
+            <img src="../common/img/d-login.png" alt="" />
             <span>Blockly-Advanced</span>
         </div>
         <p>"block" toward future programmer</p>
@@ -21,40 +21,42 @@
                     </el-button>
                 </el-form-item>
             </el-form>
-            <p class='register'>
-                <router-link to='/register'>还没有账号？注册</router-link>
+            <p class="register">
+                <router-link to="/register">还没有账号？注册</router-link>
             </p>
-            <p class='register' @click="login()">
-                <router-link to='/'>游客登陆</router-link>
+            <p class="register" @click="login()">
+                <router-link to="/">游客登陆</router-link>
             </p>
         </div>
     </div>
 </template>
 
 <script>
-import loading from '@/components/loading'
+import loading from "@/components/loading";
 export default {
     components: { loading },
     data() {
         var checkEmail = (rule, value, callback) => {
-            var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+            var reg = new RegExp(
+                "^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"
+            );
             if (!value) {
-                return callback(new Error('邮箱不能为空'));
+                return callback(new Error("邮箱不能为空"));
             }
             setTimeout(() => {
                 if (!reg.test(value)) {
-                    callback(new Error('请输入正确的邮箱'));
+                    callback(new Error("请输入正确的邮箱"));
                 } else {
                     callback();
                 }
             }, 1000);
         };
         var validatePass = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请输入密码'));
+            if (value === "") {
+                callback(new Error("请输入密码"));
             } else {
-                if (this.ruleForm.checkPass !== '') {
-                    this.$refs.ruleForm.validateField('checkPass');
+                if (this.ruleForm.checkPass !== "") {
+                    this.$refs.ruleForm.validateField("checkPass");
                 }
                 callback();
             }
@@ -62,41 +64,43 @@ export default {
         return {
             load: false,
             ruleForm: {
-                pass: '',
-                email: ''
+                pass: "",
+                email: "",
             },
             rules: {
-                pass: [
-                    { validator: validatePass, trigger: 'blur' }
-                ],
-                email: [
-                    { validator: checkEmail, trigger: 'blur' }
-                ]
-            }
-        }
+                pass: [{ validator: validatePass, trigger: "blur" }],
+                email: [{ validator: checkEmail, trigger: "blur" }],
+            },
+        };
     },
     mounted() {
         // 如果用户已经登陆，则跳转至主页
-        let log_email = localStorage.getItem('username');
+        let log_email = localStorage.getItem("username");
         if (log_email && log_email !== "anonymous@anonymous.com") {
-            this.sync_progress({
-                email: log_email
-            }, () => {
-                this.$router.push('/');
-            });
+            this.sync_progress(
+                {
+                    email: log_email,
+                },
+                () => {
+                    this.$router.push("/");
+                }
+            );
+        }
+        else {
+            localStorage.clear();
         }
     },
     methods: {
         submitForm(formName) {
-            this.load = true
+            this.load = true;
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.login({
                         email: this.ruleForm.email,
-                        password: this.ruleForm.pass
+                        password: this.ruleForm.pass,
                     });
                 } else {
-                    console.log('error submit!!');
+                    console.log("error submit!!");
                     return false;
                 }
             });
@@ -105,23 +109,23 @@ export default {
             // 游客登陆
             if (userinfo == null) {
                 userinfo = {
-                    email: 'anonymous@anonymous.com'
+                    email: "anonymous@anonymous.com",
                 };
             }
 
             this.$api.user.login(userinfo).then(({ data }) => {
-                this.load = false
-                if (data.status == '0') {
-                    this.$store.dispatch('UserLogin', data.result.token)
-                    this.$store.dispatch('UserName', data.result.email)
+                this.load = false;
+                if (data.status == "0") {
+                    this.$store.dispatch("UserLogin", data.result.token);
+                    this.$store.dispatch("UserName", data.result.email);
 
                     // sync progress of games
                     this.sync_progress(userinfo);
 
-                    let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+                    let redirect = decodeURIComponent(this.$route.query.redirect || "/");
                     this.$router.push({
-                        path: redirect
-                    })
+                        path: redirect,
+                    });
                 } else {
                     this.$message.error(data.msg);
                 }
@@ -129,23 +133,22 @@ export default {
         },
         sync_progress(userinfo, callback_on_success) {
             this.$api.record.load(userinfo).then((res) => {
-                if (res.data.status == '0') {
+                if (res.data.status == "0") {
                     let records = res.data.result;
                     for (let i in records) {
                         let record = records[i];
                         localStorage.setItem(record.level, record.progress);
                     }
 
-                    if (callback_on_success)
-                        callback_on_success(res);
+                    if (callback_on_success) callback_on_success(res);
                 }
-            })
-        }
-    }
-}
+            });
+        },
+    },
+};
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .login {
     width: 100%;
     height: 100%;
@@ -197,10 +200,9 @@ export default {
             margin: 10px;
 
             a {
-                color: #fff
+                color: #fff;
             }
         }
-
     }
 }
 </style>

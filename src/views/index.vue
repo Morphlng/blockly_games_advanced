@@ -48,6 +48,10 @@ export default {
             if (event.newValue != null && record.email != "anonymous@anonymous.com") {
                 this.$refs.timer.stop();
                 this.$api.record.save(record);
+                let email = localStorage.getItem("username");
+                let lastlevel = event.key;
+                let passtime = this.$refs.timer.curtime()
+                this.savetime(email,lastlevel,passtime)
             }
         };
 
@@ -58,6 +62,15 @@ export default {
     methods: {
         switchtimervis(){
             this.timerVis = !this.timerVis
+        },
+        savetime(email,level,time){
+            let params = 
+            {
+                "email":email,
+                "level":level,
+                "time":time
+            };
+            this.$api.time.save(params)
         },
         showtime(dest) {
             if (dest != "index") {

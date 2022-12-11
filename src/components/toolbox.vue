@@ -4,8 +4,9 @@
   <el-popover
     ref="popover"
     placement="right"
-    title="排行榜"
-    width="800"
+    title="关卡："
+    width="500"
+    height="1000"
     trigger="hover"
     >
     <p>{{lvl}}</p>
@@ -37,5 +38,9 @@ export default {
 .toobox{
   margin: 2%;
   padding: 3%;
+}
+.el-popover{
+  height: 500px;
+  overflow: auto;
 }
 </style>

@@ -72,6 +72,28 @@ router.post("/save", async function (req, res, next) {
     }
 });
 
+router.post("/ranklist",async function(req,res,next){
+    let body = req.body;
+    let level = body.level;
+    let result = [];
+    let searchParam = {"level":level};
+    let ranklist = await Time.find(searchParam);
+    for (var i = 0;i<ranklist.length;i++){
+        let item = ranklist[i];
+        let user = await User.findOne({'_id':item.uid});
+        let resitem = {
+            'user':user.email,
+            'time':item.time
+        };
+        result.push(resitem)
+    };
+    res.json({
+        status: "0",
+        msg: "更新用时成功",
+        result: result,
+    });
+
+});
 module.exports = {
     router: router,
 };

@@ -9,12 +9,12 @@
         width="180">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="user"
         label="姓名"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="score"
+        prop="time"
         label="得分">
       </el-table-column>
 </el-table>
@@ -34,9 +34,13 @@ export default {
         this.getData()
     },
     methods: {
-        getData(){
-            this.tableData.push({"rank":1,"name":"fgd","score":100})
-            
+        async getData(){
+            let level = this.level;
+            let data = await this.$api.time.get(level);
+            for(let row in data){
+              this.tableData.push(data[row]);
+            }
+            console.log(this.tableData)
         },
     }
 }

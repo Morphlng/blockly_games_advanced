@@ -42,7 +42,6 @@ const list = {
         return ranks;
     },
     save(params) {
-        console.log(params);
         return axios.post("/time/save", qs.stringify(params));
     },
 };

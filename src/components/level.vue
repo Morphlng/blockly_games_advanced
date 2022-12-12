@@ -16,9 +16,17 @@ export default {
             let frame = document.getElementById("myframe");
             let pathname = frame.contentWindow.location.pathname;
             let search = frame.contentWindow.location.search;
+            let args = search.split('&');
 
             let chapter = pathname.split("/").pop().replace(".html", "");
-            let level = (search.split("level=")[1] || "1")[0];
+            let level = "1";
+            for (let i in args) {
+                if (args[i].indexOf('level') !== -1) {
+                    level = args[i].split('=')[1];
+                    break;
+                }
+            }
+
             history.pushState(null, null, chapter);
 
             this.$emit("updateFrame", {

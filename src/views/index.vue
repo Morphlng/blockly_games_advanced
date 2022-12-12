@@ -81,7 +81,10 @@ export default {
             this.showtime(dest.chapter);
             this.lvl = dest.chapter + dest.level;
             this.isIndex = dest.chapter == "index" ? true : false;
-            this.timerVis = !this.isIndex;
+            // 如果计时器被用户关闭，则不在切换页面时显示计时器
+            if (this.timerVis) {
+                this.timerVis = !this.isIndex;
+            }
             // Call on a dummy api to check validity of token
             this.$api.user
                 .findUser({

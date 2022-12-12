@@ -70,9 +70,10 @@ export default {
             });
         },
         showtime(dest) {
+            let timer = this.$refs.timer;
+            timer.reset();
+
             if (dest != "index") {
-                let timer = this.$refs.timer;
-                timer.reset();
                 timer.start();
             }
         },

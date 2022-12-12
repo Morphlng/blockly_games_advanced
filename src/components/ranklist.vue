@@ -30,7 +30,6 @@ export default {
             for (let row in data) {
                 this.tableData.push(data[row]);
             }
-            console.log(this.tableData)
         },
     }
 }

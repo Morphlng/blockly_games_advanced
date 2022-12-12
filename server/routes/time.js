@@ -87,7 +87,6 @@ router.post("/ranklist", async function (req, res, next) {
 
     for (let i = 0; i < ranklist.length; i++) {
         let item = ranklist[i];
-        console.log(item);
 
         let user = await User.findOne({ _id: item.uid });
 

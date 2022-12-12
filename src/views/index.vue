@@ -42,12 +42,12 @@ export default {
     },
     mounted() {
         window.onstorage = (event) => {
+            this.$refs.timer.stop();
             let record = {};
             record[event.key] = event.newValue;
             record["email"] = localStorage.getItem("username");
 
             if (event.newValue != null && record.email != "anonymous@anonymous.com") {
-                this.$refs.timer.stop();
                 this.$api.record.save(record);
                 let passtime = this.$refs.timer.curtime();
                 this.savetime(record.email, event.key, passtime);

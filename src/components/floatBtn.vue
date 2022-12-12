@@ -13,8 +13,8 @@
 					<slot>
 						<div class="popover-content">
 							<div class="popover-content__item el-button" @click.stop.prevent="
-								handleClickMenuAction();
-							closeMenuAndFloating();
+	handleClickMenuAction();
+closeMenuAndFloating();
 							">
 								<img src="../../assets/images/menu.png" />自动标准化
 								<i class="iconfont iconnut icon"></i>自动标准化
@@ -95,7 +95,6 @@ export default {
 			return;
 		},
 		closeMenuAndFloating() {
-			console.log('closeMenuAndFloating');
 			this.popoverShow = false;
 			this.hoverFlag = false;
 			this.moveFlags = false;
@@ -104,8 +103,6 @@ export default {
 		async toggleMenu() {
 			//  如果上一次down事件到下一次click事件中 相同即为点击事件
 			if (this.lastMoveIndex == this.curMoveIndex) {
-				console.log(this.lastMoveIndex - this.curMoveIndex);
-				console.warn('点击');
 				this.popoverShow = !this.popoverShow;
 				await this.$nextTick();
 				if (this.popoverShow) {
@@ -122,14 +119,11 @@ export default {
 					} else {
 						this.menuPosition.left = 0;
 					}
-
-					console.log(`top:${top},left:${left}`);
 				}
 			}
 			this.curMoveIndex = this.lastMoveIndex;
 		},
 		hideButton() {
-			console.log('mouse-leave');
 			if (this.popoverShow) return;
 			this.hoverFlag = false;
 			//移动过程中不复位 按钮；
@@ -137,7 +131,6 @@ export default {
 			this.resetFloatBtnLocation();
 		},
 		showButton() {
-			console.log('mouse-over');
 			if (this.moveFlags) return (this.hoverFlag = false);
 			this.hoverFlag = true;
 			const { left, top } = this.transform;
@@ -150,8 +143,7 @@ export default {
 			}
 		},
 		moveStart(e) {
-			console.log('moveStart');
-			if (event.button == 2) return;
+			if (e.button == 2) return;
 			if (this.popoverShow) {
 				this.moveFlags = false;
 				return;
@@ -172,7 +164,7 @@ export default {
 			document.onmousemove = async (e) => {
 				this.clickFlag = false;
 				this.moveFlags = true;
-				console.log('onmousemove');
+
 				let bodyWidth = document.body.clientWidth;
 				let bodyHeight = document.body.clientHeight;
 				let moveMaxHeight = bodyHeight - 30;
@@ -203,7 +195,6 @@ export default {
 			this.$set(this.transform, 'top', top);
 		},
 		resetFloatBtnLocation() {
-			console.log('------reset');
 			let floatBtn = this.$refs.floatBtn; //获取目标元素
 			if (!floatBtn) return;
 			let bodyWidth = document.body.clientWidth;
@@ -215,7 +206,6 @@ export default {
 			}
 		},
 		moveEnd() {
-			console.log(`moveEnd`);
 			this.moveFlags = false;
 			if (this.hoverFlag) return;
 			document.onmousemove = null;

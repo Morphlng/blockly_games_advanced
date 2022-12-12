@@ -20,6 +20,14 @@ router.post("/save", async function (req, res, next) {
         });
     }
 
+    if (!user) {
+        return res.json({
+            status: "1",
+            msg: "用户不存在",
+            result: "",
+        });
+    }
+
     const obj = {
         uid: user._id,
         level: body.level,
@@ -70,6 +78,30 @@ router.post("/save", async function (req, res, next) {
                 });
             });
     }
+});
+
+router.post("/ranklist", async function (req, res, next) {
+    let result = [];
+    let searchParam = { level: req.body.level };
+    let ranklist = await Time.find(searchParam);
+
+    for (let i = 0; i < ranklist.length; i++) {
+        let item = ranklist[i];
+        console.log(item);
+
+        let user = await User.findOne({ _id: item.uid });
+
+        result.push({
+            user: user.email,
+            time: item.time,
+        });
+    }
+
+    res.json({
+        status: "0",
+        msg: "获取排行榜成功",
+        result: result,
+    });
 });
 
 module.exports = {

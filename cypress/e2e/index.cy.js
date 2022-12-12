@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-context("Index-anonymous", () => {
+context("Index-anonymous", { retries: 2 }, () => {
     beforeEach(() => {
         cy.clearLocalStorage();
         cy.login();
@@ -25,7 +25,7 @@ context("Index-anonymous", () => {
     });
 });
 
-context("Index-user", () => {
+context("Index-user", { retries: 2 }, () => {
     beforeEach(() => {
         cy.clearLocalStorage();
         cy.login("test@test.com", "test123");

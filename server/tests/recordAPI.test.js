@@ -50,9 +50,7 @@ describe("Record API tests", () => {
         try {
             const records = await Record.remove({ uid: test_doc_id });
         } catch (err) {
-            if (err) {
-                console.log(err.message);
-            }
+            console.log(err.message);
         }
 
         await mongoose.disconnect();

@@ -2,7 +2,7 @@ import "cypress-localstorage-commands";
 
 Cypress.Commands.add(
     "login",
-    (email = "anonymous@anonymous.com", password = "pQSwekqPep5WRR") => {
+    (email = "anonymous@anonymous.com", password = "none") => {
         cy.request({
             method: "POST",
             url: "/users/login",

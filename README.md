@@ -8,6 +8,8 @@
 
 鉴于以上因素，本项目致在为Blockly Games做一些加强，弥补目前的不足。
 
+[体验链接](http://d9e.cn/6XF7N)
+
 ## 软件架构
 
 本项目借鉴了[v-login](https://github.com/DFairy/v-login-page)，使用前后端分离的架构
@@ -47,7 +49,7 @@
 2. 启动前端：`npm run serve`
 3. 启动后端：`cd server && npm run start`
 
-> 注：前后端需要在不同shell中启动，或使用nohup等命令后台启动
+> 注：前后端需要在不同shell中启动，或使用nohup、&等命令后台启动
 
 ## 参与贡献
 

@@ -14,26 +14,27 @@ import { Loading } from "element-ui";
 import level from "@/components/level";
 import navigation from "@/components/navigation";
 import timer from "@/components/timer";
-import FloatBtn from '../components/floatBtn.vue';
-import Toolbox from '../components/toolbox.vue';
+import FloatBtn from "@/components/floatBtn.vue";
+import Toolbox from "@/components/toolbox.vue";
+
 export default {
-    components: { level, navigation, timer,FloatBtn,Toolbox},
+    components: { level, navigation, timer, FloatBtn, Toolbox },
     data() {
         return {
             isIndex: true,
-            timerVis:false,
+            timerVis: false,
             level: "/index.html",
-            lvl:"",
+            lvl: "",
             form: {
                 themeColor: {
-                hsl: { h: 200, s: 0, l: 0, a: 1 },
-                hex: '#000000',
-                hex8: '#000000FF',
-                rgba: { r: 0, g: 0, b: 0, a: 1 },
-                hsv: { h: 200, s: 0, v: 0, a: 1 },
-                oldHue: 200,
-                source: 'hex',
-                a: 1,
+                    hsl: { h: 200, s: 0, l: 0, a: 1 },
+                    hex: "#000000",
+                    hex8: "#000000FF",
+                    rgba: { r: 0, g: 0, b: 0, a: 1 },
+                    hsv: { h: 200, s: 0, v: 0, a: 1 },
+                    oldHue: 200,
+                    source: "hex",
+                    a: 1,
                 },
                 fontSize: 28,
             },
@@ -48,6 +49,8 @@ export default {
             if (event.newValue != null && record.email != "anonymous@anonymous.com") {
                 this.$refs.timer.stop();
                 this.$api.record.save(record);
+                let passtime = this.$refs.timer.curtime();
+                this.savetime(record.email, event.key, passtime);
             }
         };
 
@@ -56,8 +59,15 @@ export default {
         }
     },
     methods: {
-        switchtimervis(){
-            this.timerVis = !this.timerVis
+        switchtimervis() {
+            this.timerVis = !this.timerVis;
+        },
+        savetime(email, level, time) {
+            this.$api.time.save({
+                email: email,
+                level: level,
+                time: time,
+            });
         },
         showtime(dest) {
             if (dest != "index") {
@@ -69,9 +79,9 @@ export default {
         changePage(dest) {
             // E.g. dest: { chapter:'maze', level: '1' }
             this.showtime(dest.chapter);
-            this.lvl = dest.chapter+dest.level
+            this.lvl = dest.chapter + dest.level;
             this.isIndex = dest.chapter == "index" ? true : false;
-            this.timerVis = !this.isIndex
+            this.timerVis = !this.isIndex;
             // Call on a dummy api to check validity of token
             this.$api.user
                 .findUser({

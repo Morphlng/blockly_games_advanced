@@ -18,7 +18,7 @@ export default {
             let search = frame.contentWindow.location.search;
 
             let chapter = pathname.split("/").pop().replace(".html", "");
-            let level = search.split("level=")[1] || "1";
+            let level = (search.split("level=")[1] || "1")[0];
             history.pushState(null, null, chapter);
 
             this.$emit("updateFrame", {

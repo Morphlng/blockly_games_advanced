@@ -27,8 +27,65 @@ function tableformat(arr) {
     }
     return result;
 }
+function removenotpassed(arr){
+    let result = [];
+    for (let i in arr){
+        let row = arr[i];
+        let time;
+        if (row.passed===true){
+            time = row.time
+        }
+        else{
+            time = "99:99:99:99"
+        }
+        let item = {
+            user: row.user,
+            time: time,
+            passed:row.passed
+        };
+        result.push(item);
+    }
+    return result;
+}
+function tableformat2(arr) {
+    let result = [];
+    for (var i = 0; i < arr.length; i++) {
+        let row = arr[i];
+        let item = {
+            rank: i + 1,
+            user: row.user.split("@")[0],
+            time: row.time,
+            passed:row.passed
+        };
+        result.push(item);
+    }
+    return result;
+}
 
 const list = {
+    async gettotal(){
+        let data;
+        await axios.get("/time/total").then((res) => {
+            data = res.data;
+        });
+        let result = data.result;
+        result = removenotpassed(result);
+        result = bubbleSort(result);
+        result = tableformat2(result);
+        return result;
+    },
+    async getchapter(chapte){
+        let params = { chapter: chapte };
+        let data;
+        await axios.post("/time/chapter", qs.stringify(params)).then((res) => {
+            data = res.data;
+        });
+        let result = data.result;
+        result = removenotpassed(result);
+        result = bubbleSort(result);
+        result = tableformat2(result);
+        return result;
+    },
     async get(level) {
         let lvltrim = level.split("&")[0];
         let params = { level: lvltrim };

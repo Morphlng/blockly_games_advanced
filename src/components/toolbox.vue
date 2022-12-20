@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .toobox {
     margin: 2%;
     padding: 3%;
@@ -36,5 +36,8 @@ export default {
 .el-popover {
     height: 500px;
     overflow: auto;
+}
+.el-button {
+    widows: 150px;
 }
 </style>

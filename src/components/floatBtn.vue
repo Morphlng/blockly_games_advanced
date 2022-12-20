@@ -30,7 +30,7 @@ closeMenuAndFloating();
 </template>
 <script>
 export default {
-	name: 'floating-window',
+	name: "floating-window",
 	props: {
 		form: Object,
 	},
@@ -41,12 +41,12 @@ export default {
 			hoverFlag: false,
 			// 初始的位置记录
 			movePosition: { x: 0, y: 0 },
-			nx: '',
-			ny: '',
-			dx: '',
-			dy: '',
-			xPum: '',
-			yPum: '',
+			nx: "",
+			ny: "",
+			dx: "",
+			dy: "",
+			xPum: "",
+			yPum: "",
 			popoverShow: false,
 			//浮窗的位置
 			transform: {
@@ -62,7 +62,7 @@ export default {
 		};
 	},
 	created() {
-		document.addEventListener('mouseup', (e) => {
+		document.addEventListener("mouseup", (e) => {
 			if (
 				e.clientY > window.innerHeight ||
 				e.clientY < 60 ||
@@ -74,12 +74,12 @@ export default {
 		});
 	},
 	mounted() {
-		window.addEventListener('resize', () => {
-			this.$set(this.transform, 'top', document.body.offsetHeight - 300);
-			this.$set(this.transform, 'left', document.body.offsetWidth - 25);
+		window.addEventListener("resize", () => {
+			this.$set(this.transform, "top", document.body.offsetHeight - 300);
+			this.$set(this.transform, "left", document.body.offsetWidth - 25);
 		});
 		const floatBtn = this.$refs.floatBtn;
-		document.addEventListener('click', (event) => {
+		document.addEventListener("click", (event) => {
 			if (!floatBtn) return;
 			var tDom = event.target;
 			if (floatBtn !== tDom && !floatBtn.contains(tDom)) {
@@ -89,8 +89,8 @@ export default {
 	},
 	methods: {
 		handleClickMenuAction() {
-			this.$alert('点击菜单了', '标题名称', {
-				confirmButtonText: '确定',
+			this.$alert("点击菜单了", "标题名称", {
+				confirmButtonText: "确定",
 			});
 			return;
 		},
@@ -112,10 +112,10 @@ export default {
 						this.menuPosition.top = `-${this.$refs.popoverContent.offsetHeight +
 							10}px`;
 					} else {
-						this.menuPosition.top = '60px';
+						this.menuPosition.top = "60px";
 					}
 					if (left > 200) {
-						this.menuPosition.left = '-132px';
+						this.menuPosition.left = "-132px";
 					} else {
 						this.menuPosition.left = 0;
 					}
@@ -191,8 +191,8 @@ export default {
 		generateTransform({ top, left }) {
 			let floatBtn = this.$refs.floatBtn; //获取目标元素
 			if (!floatBtn) return;
-			this.$set(this.transform, 'left', left);
-			this.$set(this.transform, 'top', top);
+			this.$set(this.transform, "left", left);
+			this.$set(this.transform, "top", top);
 		},
 		resetFloatBtnLocation() {
 			let floatBtn = this.$refs.floatBtn; //获取目标元素

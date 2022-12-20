@@ -37,7 +37,10 @@ export default {
 
             let frame = document.getElementById("myframe");
             let pathname = frame.contentWindow.location.pathname;
-            let chapter = pathname.split("/").pop().replace(".html", "");
+            let chapter = pathname
+                .split("/")
+                .pop()
+                .replace(".html", "");
             let chapterNum = chapters.indexOf(chapter);
 
             // 开始
@@ -110,7 +113,7 @@ export default {
 
 <style scoped>
 .dateBox {
-    border: 2px solid #A9C9E2;
+    border: 2px solid #a9c9e2;
     background: burlywood;
     background-image: require("../../assets/images/timer2.png");
     background-repeat: no-repeat;

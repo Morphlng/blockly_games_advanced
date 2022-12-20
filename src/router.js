@@ -75,6 +75,10 @@ const router = new Router({
                     path: "/pond-duck",
                     meta: { requireAuth: true },
                 },
+                {
+                    path: "/about",
+                    name: "about",
+                },
             ],
             meta: { requireAuth: true },
         },

@@ -6,62 +6,62 @@ const Time = require("../models/time");
 
 function addTimes(time1, time2) {
     // Split the times into hours, minutes, seconds and milliseconds
-    const time1Parts = time1.split(':').map(x => parseInt(x, 10));
-    const time2Parts = time2.split(':').map(x => parseInt(x, 10));
+    const time1Parts = time1.split(":").map((x) => parseInt(x, 10));
+    const time2Parts = time2.split(":").map((x) => parseInt(x, 10));
     // Add the times
     const result = [0, 0, 0, 0];
     for (let i = 3; i >= 0; i--) {
-      result[i] += time1Parts[i] + time2Parts[i];
-      if (result[i] >= 60) {
-        result[i - 1] += 1;
-        result[i] -= 60;
-      }
+        result[i] += time1Parts[i] + time2Parts[i];
+        if (result[i] >= 60) {
+            result[i - 1] += 1;
+            result[i] -= 60;
+        }
     }
     // Format the result as a string
-    return result.map(x => x.toString().padStart(2, '0')).join(':');
+    return result.map((x) => x.toString().padStart(2, "0")).join(":");
 }
-async function formatData(times,chapter){
+
+async function formatData(times, chapter) {
     // 使用 reduce 函数统计每个 uid 对应的时间
     const uidToTime = times.reduce((accumulator, time) => {
         if (accumulator[time.uid]) {
-          // 如果已经有这个 uid 的时间，则将两个时间相加
-          accumulator[time.uid] = addTimes(accumulator[time.uid], time.time);
+            // 如果已经有这个 uid 的时间，则将两个时间相加
+            accumulator[time.uid] = addTimes(accumulator[time.uid], time.time);
         } else {
-          // 如果没有这个 uid 的时间，则将时间设为当前时间
-          accumulator[time.uid] = time.time;
+            // 如果没有这个 uid 的时间，则将时间设为当前时间
+            accumulator[time.uid] = time.time;
         }
         return accumulator;
-      }, {});
-      let result = []
-      for (let key in uidToTime){
+    }, {});
+    let result = [];
+    for (let key in uidToTime) {
         let user = await User.findOne({ _id: key });
         let email = user.email;
         let time = uidToTime[key];
-        let passedlevel = times.filter(item => item.uid === key).length;
+        let passedlevel = times.filter((item) => item.uid === key).length;
         let levelnum = 2;
         let totallevelnum = 50;
         let passed = false;
-        if (chapter==='puzzle'){
+        if (chapter === "puzzle") {
+            passed = true;
+        } else if (passedlevel >= levelnum) {
             passed = true;
         }
-        else if(passedlevel>=levelnum){
-            passed = true;
-        }
-        if (chapter==='all' && passedlevel < totallevelnum){
+        if (chapter === "all" && passedlevel < totallevelnum) {
             passed = false;
         }
-        result.push({time:time,user:email,passed:passed});
-      }
-      return result;
+        result.push({ time: time, user: email, passed: passed });
+    }
+    return result;
 }
 
-router.get("/total",async function(req,res, next){
-    let result = await Time.find(function(error, times) {
+router.get("/total", async function (req, res, next) {
+    let result = await Time.find(function (error, times) {
         if (error) {
-          console.error(error);
-        } 
+            console.error(error);
+        }
     });
-    let formatted = await formatData(result,'all');
+    let formatted = await formatData(result, "all");
     res.json({
         status: "0",
         msg: "获取排行榜成功",
@@ -69,14 +69,17 @@ router.get("/total",async function(req,res, next){
     });
 });
 
-router.post("/chapter",async function(req, res, next){
-    let chapter = req.body.chapter
-    let result = await Time.find({ level: {$regex:"^"+chapter} }, function(error, times) {
+router.post("/chapter", async function (req, res, next) {
+    let chapter = req.body.chapter;
+    let result = await Time.find({ level: { $regex: "^" + chapter } }, function (
+        error,
+        times
+    ) {
         if (error) {
-          console.error(error);
-        } 
+            console.error(error);
+        }
     });
-    let formatted = await formatData(result,chapter);
+    let formatted = await formatData(result, chapter);
     res.json({
         status: "0",
         msg: "获取排行榜成功",

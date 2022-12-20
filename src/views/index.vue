@@ -14,8 +14,8 @@ import { Loading } from "element-ui";
 import level from "@/components/level";
 import navigation from "@/components/navigation";
 import timer from "@/components/timer";
-import FloatBtn from "@/components/floatBtn.vue";
-import Toolbox from "@/components/toolbox.vue";
+import FloatBtn from "@/components/floatBtn";
+import Toolbox from "@/components/toolbox";
 
 export default {
     components: { level, navigation, timer, FloatBtn, Toolbox },
@@ -81,7 +81,7 @@ export default {
             // E.g. dest: { chapter:'maze', level: '1' }
             this.showtime(dest.chapter);
             this.lvl = dest.chapter + dest.level;
-            this.isIndex = dest.chapter == "index" ? true : false;
+            this.isIndex = (dest.chapter == "index") || (dest.chapter == "about") ? true : false;
             // 如果计时器被用户关闭，则不在切换页面时显示计时器
             if (this.timerVis) {
                 this.timerVis = !this.isIndex;

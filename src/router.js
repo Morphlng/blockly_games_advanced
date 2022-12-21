@@ -24,7 +24,7 @@ const router = new Router({
             component: Register,
         },
         {
-            path: "/test",
+            path: "/rank",
             name: "test",
             component: Rank,
         },

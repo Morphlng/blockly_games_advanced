@@ -4,8 +4,9 @@
         <el-popover ref="popover" placement="right" title="关卡：" width="500" height="1000" trigger="hover">
             <p>{{ lvl }}</p>
             <ranklist :level="lvl"></ranklist>
-            <el-button slot="reference">排行榜</el-button>
+            <el-button slot="reference">本关排行榜</el-button>
         </el-popover>
+        <el-button slot="reference" @click="totalrank">总排行榜</el-button>
     </div>
 </template>
 
@@ -24,6 +25,9 @@ export default {
         hideTimer() {
             this.$emit("hidetimer");
         },
+        totalrank() {
+            this.$router.push("/rank")
+        }
     },
 };
 </script>
@@ -32,6 +36,7 @@ export default {
 .toobox {
     margin: 2%;
     padding: 3%;
+    align-content: center;
 }
 
 .el-popover {
@@ -40,6 +45,6 @@ export default {
 }
 
 .el-button {
-    widows: 150px;
+    width: 150px;
 }
 </style>

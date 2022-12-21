@@ -39,7 +39,7 @@ async function formatData(times, chapter) {
         let email = user.email;
         let time = uidToTime[key];
         let passedlevel = times.filter((item) => item.uid === key).length;
-        let levelnum = 2;
+        let levelnum = 10;
         let totallevelnum = 50;
         let passed = false;
         if (chapter === "puzzle") {

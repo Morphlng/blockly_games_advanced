@@ -8,7 +8,7 @@
 
 鉴于以上因素，本项目致在为Blockly Games做一些加强，弥补目前的不足。
 
-[体验链接](http://d9e.cn/6XF7N)
+[体验链接](http://f8h.cn/DETVE)
 
 ## 软件架构
 

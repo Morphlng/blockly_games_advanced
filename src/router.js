@@ -25,7 +25,7 @@ const router = new Router({
         },
         {
             path: "/rank",
-            name: "test",
+            name: "rank",
             component: Rank,
         },
         {

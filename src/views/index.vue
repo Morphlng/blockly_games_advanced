@@ -14,8 +14,8 @@ import { Loading } from "element-ui";
 import level from "@/components/level";
 import navigation from "@/components/navigation";
 import timer from "@/components/timer";
-import FloatBtn from "@/components/floatBtn.vue";
-import Toolbox from "@/components/toolbox.vue";
+import FloatBtn from "@/components/floatBtn";
+import Toolbox from "@/components/toolbox";
 
 export default {
     components: { level, navigation, timer, FloatBtn, Toolbox },
@@ -42,12 +42,12 @@ export default {
     },
     mounted() {
         window.onstorage = (event) => {
+            this.$refs.timer.stop();
             let record = {};
             record[event.key] = event.newValue;
             record["email"] = localStorage.getItem("username");
 
             if (event.newValue != null && record.email != "anonymous@anonymous.com") {
-                this.$refs.timer.stop();
                 this.$api.record.save(record);
                 let passtime = this.$refs.timer.curtime();
                 this.savetime(record.email, event.key, passtime);
@@ -70,9 +70,10 @@ export default {
             });
         },
         showtime(dest) {
+            let timer = this.$refs.timer;
+            timer.reset();
+
             if (dest != "index") {
-                let timer = this.$refs.timer;
-                timer.reset();
                 timer.start();
             }
         },
@@ -80,8 +81,11 @@ export default {
             // E.g. dest: { chapter:'maze', level: '1' }
             this.showtime(dest.chapter);
             this.lvl = dest.chapter + dest.level;
-            this.isIndex = dest.chapter == "index" ? true : false;
-            this.timerVis = !this.isIndex;
+            this.isIndex = (dest.chapter == "index") || (dest.chapter == "about") ? true : false;
+            // 如果计时器被用户关闭，则不在切换页面时显示计时器
+            if (this.timerVis) {
+                this.timerVis = !this.isIndex;
+            }
             // Call on a dummy api to check validity of token
             this.$api.user
                 .findUser({

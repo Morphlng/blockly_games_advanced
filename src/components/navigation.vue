@@ -44,7 +44,7 @@ export default {
                 elementId: "main-navbar",
                 isUsingVueRouter: true,
                 mobileBreakpoint: 992,
-                brandImagePath: "./",
+                brandImagePath: "index",
                 brandImage: require("../../assets/images/logo.png"),
                 brandImageAltText: "brand-image",
                 collapseButtonOpenColor: "#661c23",
@@ -57,7 +57,7 @@ export default {
                 menuOptionsLeft: [
                     {
                         type: "link",
-                        text: "Why Dunder Mifflin",
+                        text: "Why Blockly Games",
                         arrowColor: "#659CC8",
                         subMenuOptions: [
                             {
@@ -67,27 +67,16 @@ export default {
                                 subText:
                                     "Stupid corporate wet blankets. Like booze ever killed anyone.",
                                 path: { name: "about" },
-                                iconLeft: '<i class="fa fa-star fa-fw"></i>',
                             },
                             {
-                                type: "hr",
-                            },
-                            {
-                                type: "link",
-                                text: "Locations",
-                                subText: "You're a presentation tool!",
-                                path: { name: "locations" },
-                                arrowColor: "#659CC8",
-                            },
-                            {
-                                type: "hr",
+                                type: "spacer",
                             },
                             {
                                 type: "link",
-                                text: "Blog",
+                                text: "GitHub",
                                 subText:
-                                    "I enjoy having breakfast in bed. I like waking up to the smell of bacon. Sue me.",
-                                path: { name: "blog" },
+                                    "Stupid corporate wet blankets. Like booze ever killed anyone.",
+                                path: { name: "about" },
                             },
                         ],
                     },
@@ -97,30 +86,18 @@ export default {
                         subMenuOptions: [
                             {
                                 type: "link",
-                                text: "Customer Service",
-                                path: { name: "customer-service" },
-                            },
-                            {
-                                type: "link",
-                                text: "Accounting",
-                                path: { name: "accounting" },
-                            },
-                            {
-                                type: "hr",
-                            },
-                            {
-                                type: "link",
-                                text: "Reception",
-                                path: { name: "reception" },
+                                text: "index",
+                                path: { name: "about" },
+                                subText: "niezili22@mails.ucas.ac.cn",
                                 iconLeft:
-                                    '<svg id="i-telephone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"> <path d="M3 12 C3 5 10 5 16 5 22 5 29 5 29 12 29 20 22 11 22 11 L10 11 C10 11 3 20 3 12 Z M11 14 C11 14 6 19 6 28 L26 28 C26 19 21 14 21 14 L11 14 Z" /> <circle cx="16" cy="21" r="4" /> </svg>',
+                                    '<svg width="45" height="45" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44 24V9H24H4V24V39H24" stroke="#333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 36L36 40L44 30" stroke="#333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9L24 24L44 9" stroke="#333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>',
                             },
                         ],
                     },
                     {
                         type: "link",
-                        text: "Pricing",
-                        path: { name: "pricing" },
+                        text: "Time-Rank",
+                        path: { name: "rank" },
                         iconRight: '<i class="fa fa-long-arrow-right fa-fw"></i>',
                     },
                 ],

@@ -79,15 +79,13 @@ async function saveProgress(req, res, next) {
                         result: save_cnt,
                     });
                 })
-                .catch(
-                    (
-                        err // error for Record.findOneAndUpdate
-                    ) =>
-                        res.json({
-                            status: "1",
-                            msg: err.message,
-                            result: "",
-                        })
+                .catch((err) =>
+                    // error for Record.findOneAndUpdate
+                    res.json({
+                        status: "1",
+                        msg: err.message,
+                        result: "",
+                    })
                 );
         })
         .catch((err) =>

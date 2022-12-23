@@ -13,8 +13,8 @@
 					<slot>
 						<div class="popover-content">
 							<div class="popover-content__item el-button" @click.stop.prevent="
-								handleClickMenuAction();
-							closeMenuAndFloating();
+	handleClickMenuAction();
+closeMenuAndFloating();
 							">
 								<img src="../../assets/images/menu.png" />自动标准化
 								<i class="iconfont iconnut icon"></i>自动标准化
@@ -30,7 +30,7 @@
 </template>
 <script>
 export default {
-	name: 'floating-window',
+	name: "floating-window",
 	props: {
 		form: Object,
 	},
@@ -41,12 +41,12 @@ export default {
 			hoverFlag: false,
 			// 初始的位置记录
 			movePosition: { x: 0, y: 0 },
-			nx: '',
-			ny: '',
-			dx: '',
-			dy: '',
-			xPum: '',
-			yPum: '',
+			nx: "",
+			ny: "",
+			dx: "",
+			dy: "",
+			xPum: "",
+			yPum: "",
 			popoverShow: false,
 			//浮窗的位置
 			transform: {
@@ -62,7 +62,7 @@ export default {
 		};
 	},
 	created() {
-		document.addEventListener('mouseup', (e) => {
+		document.addEventListener("mouseup", (e) => {
 			if (
 				e.clientY > window.innerHeight ||
 				e.clientY < 60 ||
@@ -74,12 +74,12 @@ export default {
 		});
 	},
 	mounted() {
-		window.addEventListener('resize', () => {
-			this.$set(this.transform, 'top', document.body.offsetHeight - 300);
-			this.$set(this.transform, 'left', document.body.offsetWidth - 25);
+		window.addEventListener("resize", () => {
+			this.$set(this.transform, "top", document.body.offsetHeight - 300);
+			this.$set(this.transform, "left", document.body.offsetWidth - 25);
 		});
 		const floatBtn = this.$refs.floatBtn;
-		document.addEventListener('click', (event) => {
+		document.addEventListener("click", (event) => {
 			if (!floatBtn) return;
 			var tDom = event.target;
 			if (floatBtn !== tDom && !floatBtn.contains(tDom)) {
@@ -89,13 +89,12 @@ export default {
 	},
 	methods: {
 		handleClickMenuAction() {
-			this.$alert('点击菜单了', '标题名称', {
-				confirmButtonText: '确定',
+			this.$alert("点击菜单了", "标题名称", {
+				confirmButtonText: "确定",
 			});
 			return;
 		},
 		closeMenuAndFloating() {
-			console.log('closeMenuAndFloating');
 			this.popoverShow = false;
 			this.hoverFlag = false;
 			this.moveFlags = false;
@@ -104,8 +103,6 @@ export default {
 		async toggleMenu() {
 			//  如果上一次down事件到下一次click事件中 相同即为点击事件
 			if (this.lastMoveIndex == this.curMoveIndex) {
-				console.log(this.lastMoveIndex - this.curMoveIndex);
-				console.warn('点击');
 				this.popoverShow = !this.popoverShow;
 				await this.$nextTick();
 				if (this.popoverShow) {
@@ -115,21 +112,18 @@ export default {
 						this.menuPosition.top = `-${this.$refs.popoverContent.offsetHeight +
 							10}px`;
 					} else {
-						this.menuPosition.top = '60px';
+						this.menuPosition.top = "60px";
 					}
 					if (left > 200) {
-						this.menuPosition.left = '-132px';
+						this.menuPosition.left = "-132px";
 					} else {
 						this.menuPosition.left = 0;
 					}
-
-					console.log(`top:${top},left:${left}`);
 				}
 			}
 			this.curMoveIndex = this.lastMoveIndex;
 		},
 		hideButton() {
-			console.log('mouse-leave');
 			if (this.popoverShow) return;
 			this.hoverFlag = false;
 			//移动过程中不复位 按钮；
@@ -137,7 +131,6 @@ export default {
 			this.resetFloatBtnLocation();
 		},
 		showButton() {
-			console.log('mouse-over');
 			if (this.moveFlags) return (this.hoverFlag = false);
 			this.hoverFlag = true;
 			const { left, top } = this.transform;
@@ -150,8 +143,7 @@ export default {
 			}
 		},
 		moveStart(e) {
-			console.log('moveStart');
-			if (event.button == 2) return;
+			if (e.button == 2) return;
 			if (this.popoverShow) {
 				this.moveFlags = false;
 				return;
@@ -172,7 +164,7 @@ export default {
 			document.onmousemove = async (e) => {
 				this.clickFlag = false;
 				this.moveFlags = true;
-				console.log('onmousemove');
+
 				let bodyWidth = document.body.clientWidth;
 				let bodyHeight = document.body.clientHeight;
 				let moveMaxHeight = bodyHeight - 30;
@@ -199,11 +191,10 @@ export default {
 		generateTransform({ top, left }) {
 			let floatBtn = this.$refs.floatBtn; //获取目标元素
 			if (!floatBtn) return;
-			this.$set(this.transform, 'left', left);
-			this.$set(this.transform, 'top', top);
+			this.$set(this.transform, "left", left);
+			this.$set(this.transform, "top", top);
 		},
 		resetFloatBtnLocation() {
-			console.log('------reset');
 			let floatBtn = this.$refs.floatBtn; //获取目标元素
 			if (!floatBtn) return;
 			let bodyWidth = document.body.clientWidth;
@@ -215,7 +206,6 @@ export default {
 			}
 		},
 		moveEnd() {
-			console.log(`moveEnd`);
 			this.moveFlags = false;
 			if (this.hoverFlag) return;
 			document.onmousemove = null;

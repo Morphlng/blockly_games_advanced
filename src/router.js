@@ -5,6 +5,7 @@ import LogOut from "./views/logout";
 import Register from "./views/register";
 import Index from "./views/index";
 import Wrong from "./views/wrong";
+import Rank from "./views/rankpage"
 
 Vue.use(Router);
 
@@ -21,6 +22,11 @@ const router = new Router({
             path: "/register",
             name: "register",
             component: Register,
+        },
+        {
+            path: "/rank",
+            name: "rank",
+            component: Rank,
         },
         {
             path: "/logout",
@@ -68,6 +74,10 @@ const router = new Router({
                 {
                     path: "/pond-duck",
                     meta: { requireAuth: true },
+                },
+                {
+                    path: "/about",
+                    name: "about",
                 },
             ],
             meta: { requireAuth: true },

@@ -37,7 +37,10 @@ export default {
 
             let frame = document.getElementById("myframe");
             let pathname = frame.contentWindow.location.pathname;
-            let chapter = pathname.split("/").pop().replace(".html", "");
+            let chapter = pathname
+                .split("/")
+                .pop()
+                .replace(".html", "");
             let chapterNum = chapters.indexOf(chapter);
 
             // 开始
@@ -65,8 +68,8 @@ export default {
                     }
                     if (this.showSkipSelect) {
                         this.lastSkipTime = this.count;
-                    } else if (this.count - this.lastSkipTime >= 1 * 1000 * 60) {
-                        if (this.count - this.lastSkipTime > 1 * 1000 * 60) {
+                    } else if (this.count - this.lastSkipTime >= 5 * 1000 * 60) {
+                        if (this.count - this.lastSkipTime > 5 * 1000 * 60) {
                             this.lastSkipTime = 0;
                         } else {
                             this.showSkipSelect = true;
@@ -110,22 +113,22 @@ export default {
 
 <style scoped>
 .dateBox {
-  border: 2px solid #A9C9E2;
-  background: burlywood;
-  background-image: require("../../assets/images/timer2.png");
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  position: absolute;
-  bottom: 5%;
-  left: 2%;
-  width: 10%;
-  height: 5%;
+    border: 2px solid #a9c9e2;
+    background: burlywood;
+    background-image: require("../../assets/images/timer2.png");
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 5%;
+    left: 2%;
+    width: 10%;
+    height: 5%;
 }
 
 .time {
-  font-size: 3vh;
-  color: #ffffff;
+    font-size: 3vh;
+    color: #ffffff;
 }
 </style>

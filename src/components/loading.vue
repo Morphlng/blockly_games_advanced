@@ -7,11 +7,10 @@
 </template>
 
 <script>
-export default {
-}
+export default {};
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .load-container {
     // margin: 50px auto;
     width: 70px;
@@ -48,11 +47,11 @@ export default {
     0%,
     80%,
     100% {
-        -webkit-transform: scale(0.0)
+        -webkit-transform: scale(0);
     }
 
     40% {
-        -webkit-transform: scale(1.0)
+        -webkit-transform: scale(1);
     }
 }
 
@@ -61,13 +60,13 @@ export default {
     0%,
     80%,
     100% {
-        transform: scale(0.0);
-        -webkit-transform: scale(0.0);
+        transform: scale(0);
+        -webkit-transform: scale(0);
     }
 
     40% {
-        transform: scale(1.0);
-        -webkit-transform: scale(1.0);
+        transform: scale(1);
+        -webkit-transform: scale(1);
     }
 }
 </style>

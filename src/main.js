@@ -3,8 +3,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store/index";
 import ElementUI from "element-ui";
-import "./common/style/common.scss";
 import api from "./api";
+import "./common/style/common.scss";
 
 Vue.use(ElementUI);
 Vue.prototype.$api = api; // 将api挂载到vue的原型上

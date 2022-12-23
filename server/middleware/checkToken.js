@@ -28,7 +28,6 @@ module.exports = function (req, res, next) {
             msg: "token不存在",
         });
     }
-    console.log("checkToken:" + token);
 
     // 认证token
     jwt.verify(token, "secret", (err, decoded) => {
